@@ -14,7 +14,7 @@ import Foundation
 public class BaseEthereumClient: EthereumClientProtocol {
     public let url: URL
 
-    let networkProvider: NetworkProviderProtocol
+    public let networkProvider: NetworkProviderProtocol
 
     private let logger: Logger
 
@@ -197,19 +197,6 @@ public class BaseEthereumClient: EthereumClientProtocol {
             let data = try await networkProvider.send(method: "eth_sendRawTransaction", params: [transactionHex], receive: String.self)
             if let resDataString = data as? String {
                 return resDataString
-            } else {
-                throw EthereumClientError.unexpectedReturnValue
-            }
-        } catch {
-            throw failureHandler(error)
-        }
-    }
-
-    public func eth_getTransactionCount(address: EthereumAddress, block: EthereumBlock) async throws -> Int {
-        do {
-            let data = try await networkProvider.send(method: "eth_getTransactionCount", params: [address.value, block.stringValue], receive: String.self)
-            if let resString = data as? String, let count = Int(hex: resString) {
-                return count
             } else {
                 throw EthereumClientError.unexpectedReturnValue
             }
