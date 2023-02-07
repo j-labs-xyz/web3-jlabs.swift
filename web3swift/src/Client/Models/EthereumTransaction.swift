@@ -19,7 +19,7 @@ public struct EthereumTransaction: EthereumTransactionProtocol, Equatable, Codab
     public let from: EthereumAddress?
     public let to: EthereumAddress
     public let value: BigUInt?
-    public let data: Data?
+    public var data: Data?
     public var nonce: Int?
     public let gasPrice: BigUInt?
     public let gasLimit: BigUInt?

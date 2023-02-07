@@ -14,7 +14,7 @@ import Foundation
 public class BaseEthereumClient: EthereumClientProtocol {
     public let url: URL
 
-    let networkProvider: NetworkProviderProtocol
+    public let networkProvider: NetworkProviderProtocol
 
     private let logger: Logger
 
@@ -104,7 +104,7 @@ public class BaseEthereumClient: EthereumClientProtocol {
         }
     }
 
-    public func eth_getCode(address: EthereumAddress, block: EthereumBlock = .Latest) async throws -> String {
+    public func eth_getCode(address: EthereumAddress, block: EthereumBlock = EthereumBlock(rawValue: "latest")) async throws -> String {
         do {
             let data = try await networkProvider.send(method: "eth_getCode", params: [address.value, block.stringValue], receive: String.self)
             if let resDataString = data as? String {
